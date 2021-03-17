@@ -1,18 +1,20 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-
+import { User } from 'src/users/schema/user.schema';
+import * as mongoose from 'mongoose';
 export type TodoDocument = Todo & Document;
 
 @Schema()
 export class Todo {
-  @Prop()
-  todoId: string;
-  @Prop()
+  // id: MongooseShema.Types.ObjectId;
+  @Prop({ required: true })
   title: string;
   @Prop()
   desc: string;
   @Prop()
   type: string;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
+  owner: User;
   @Prop({ default: false })
   isDone: boolean;
   @Prop({ default: false })

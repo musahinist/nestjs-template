@@ -1,4 +1,7 @@
+import { IsNotEmpty } from 'class-validator';
+
 export class CreateTodoDto {
-  name: string;
-  age: number;
+  readonly title: string;
+  @IsNotEmpty()
+  readonly desc: string;
 }

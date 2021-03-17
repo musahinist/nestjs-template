@@ -12,7 +12,7 @@ export class TodosService {
   }
 
   findAll() {
-    return `This action returns all todos`;
+    return this.todosRepo.findAll({});
   }
 
   findOne(id: number) {

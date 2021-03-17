@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Observable } from 'rxjs';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './schema/user.schema';
@@ -7,7 +8,7 @@ import { UsersRepository } from './users.repository';
 @Injectable()
 export class UsersService {
   constructor(private readonly usersRepo: UsersRepository) {}
-  async create(createUserDto: CreateUserDto): Promise<User> {
+  create(createUserDto: CreateUserDto) {
     return this.usersRepo.create(createUserDto);
   }
 

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { FilterQuery, Model } from 'mongoose';
+import { from, Observable } from 'rxjs';
 import { CreateUserDto } from './dto/create-user.dto';
 
 import { User, UserDocument } from './schema/user.schema';
@@ -9,12 +10,12 @@ import { User, UserDocument } from './schema/user.schema';
 export class UsersRepository {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-  async create(user: CreateUserDto): Promise<User> {
-    return new this.userModel(user).save();
+  create(user: CreateUserDto) {
+    return from(new this.userModel(user).save());
   }
 
-  async findAll(usersFilterQuery: FilterQuery<User>): Promise<User[]> {
-    return this.userModel.find(usersFilterQuery);
+  findAll(usersFilterQuery: FilterQuery<User>) {
+    return from(this.userModel.find(usersFilterQuery));
   }
 
   async findOne(usersFilterQuery: FilterQuery<User>): Promise<User> {
@@ -25,7 +26,9 @@ export class UsersRepository {
     usersFilterQuery: FilterQuery<User>,
     updateUser: Partial<User>,
   ): Promise<User> {
-    return this.userModel.findOneAndUpdate(usersFilterQuery, updateUser);
+    return this.userModel.findOneAndUpdate(usersFilterQuery, updateUser, {
+      new: true,
+    });
   }
 
   async remove(usersFilterQuery: FilterQuery<User>): Promise<User> {
