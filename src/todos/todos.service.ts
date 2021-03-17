@@ -8,11 +8,11 @@ import { TodosRepository } from './todos.repository';
 export class TodosService {
   constructor(private readonly todosRepo: TodosRepository) {}
   async create(createTodoDto: CreateTodoDto): Promise<Todo> {
-    return this.todosRepo.create(createTodoDto);
+    return await this.todosRepo.create(createTodoDto);
   }
 
-  findAll() {
-    return this.todosRepo.findAll({});
+  async findAll() {
+    return await this.todosRepo.findAll({});
   }
 
   findOne(id: number) {
