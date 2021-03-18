@@ -10,7 +10,7 @@ import { User, UserDocument } from './schema/user.schema';
 export class UsersRepository {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-  create(user: CreateUserDto) {
+  create(user: Partial<User>): Observable<User> {
     return from(new this.userModel(user).save());
   }
 

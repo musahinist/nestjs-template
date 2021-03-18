@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Observable } from 'rxjs';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
 import { Todo } from './schema/todo.schema';
@@ -7,23 +8,26 @@ import { TodosRepository } from './todos.repository';
 @Injectable()
 export class TodosService {
   constructor(private readonly todosRepo: TodosRepository) {}
-  async create(createTodoDto: CreateTodoDto): Promise<Todo> {
-    return await this.todosRepo.create(createTodoDto);
+  create(createTodoDto: CreateTodoDto): Observable<Todo> {
+    return this.todosRepo.create(createTodoDto);
   }
 
-  async findAll() {
-    return await this.todosRepo.findAll({});
+  findAll(): Observable<Todo[]> | Object {
+    return this.todosRepo.findAll({});
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} todo`;
+  findOne(id: string): Observable<Todo[]> | Object {
+    return this.todosRepo.findOne({ _id: id });
   }
 
-  update(id: number, updateTodoDto: UpdateTodoDto) {
-    return `This action updates a #${id} todo`;
+  update(
+    id: string,
+    updateTodoDto: UpdateTodoDto,
+  ): Observable<Todo[]> | Object {
+    return this.todosRepo.update({ _id: id }, updateTodoDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} todo`;
+  remove(id: string): Observable<Todo> {
+    return this.todosRepo.remove({ _id: id });
   }
 }

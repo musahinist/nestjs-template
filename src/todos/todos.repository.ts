@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { FilterQuery, Model } from 'mongoose';
+import { from, Observable } from 'rxjs';
 import { CreateTodoDto } from './dto/create-todo.dto';
 
 import { Todo, TodoDocument } from './schema/todo.schema';
@@ -9,12 +10,12 @@ import { Todo, TodoDocument } from './schema/todo.schema';
 export class TodosRepository {
   constructor(@InjectModel(Todo.name) private todoModel: Model<TodoDocument>) {}
 
-  async create(todo: CreateTodoDto): Promise<Todo> {
-    return new this.todoModel(todo).save();
+  create(todo: CreateTodoDto): Observable<Todo> {
+    return from(new this.todoModel(todo).save());
   }
 
-  async findAll(todosFilterQuery: FilterQuery<Todo>): Promise<Todo[]> {
-    return this.todoModel.find(todosFilterQuery);
+  findAll(todosFilterQuery: FilterQuery<Todo>): Observable<Todo[]> | Object {
+    return from(this.todoModel.find(todosFilterQuery));
   }
 
   async findOne(todosFilterQuery: FilterQuery<Todo>): Promise<Todo> {
@@ -28,7 +29,7 @@ export class TodosRepository {
     return this.todoModel.findOneAndUpdate(todosFilterQuery, updateTodo);
   }
 
-  async remove(todosFilterQuery: FilterQuery<Todo>): Promise<Todo> {
-    return this.todoModel.findOneAndDelete(todosFilterQuery);
+  remove(todoFilterQuery: FilterQuery<Todo>): Observable<Todo> {
+    return from(this.todoModel.findOneAndDelete(todoFilterQuery).exec());
   }
 }

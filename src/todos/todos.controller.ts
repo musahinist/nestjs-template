@@ -8,6 +8,7 @@ import {
   Delete,
   UsePipes,
   ValidationPipe,
+  Query,
 } from '@nestjs/common';
 import { TodosService } from './todos.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
@@ -28,18 +29,18 @@ export class TodosController {
     return this.todosService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.todosService.findOne(+id);
+  @Get()
+  findOne(@Query('id') id: string) {
+    return this.todosService.findOne(id);
   }
 
-  @Put(':id')
-  update(@Param('id') id: string, @Body() updateTodoDto: UpdateTodoDto) {
-    return this.todosService.update(+id, updateTodoDto);
+  @Put()
+  update(@Query('id') id: string, @Body() updateTodoDto: UpdateTodoDto) {
+    return this.todosService.update(id, updateTodoDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.todosService.remove(+id);
+  @Delete()
+  remove(@Query('id') id: string) {
+    return this.todosService.remove(id);
   }
 }

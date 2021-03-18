@@ -4,25 +4,24 @@ import { User } from 'src/users/schema/user.schema';
 import * as mongoose from 'mongoose';
 export type TodoDocument = Todo & Document;
 
-@Schema()
+@Schema({ timestamps: true })
 export class Todo {
-  // id: MongooseShema.Types.ObjectId;
   @Prop({ required: true })
-  title: string;
+  title?: string;
   @Prop()
-  desc: string;
+  desc?: string;
   @Prop()
-  type: string;
+  type?: string;
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
-  owner: User;
+  owner?: User;
   @Prop({ default: false })
-  isDone: boolean;
+  isDone?: boolean;
   @Prop({ default: false })
-  isArchived: boolean;
-  @Prop({ type: Date, default: Date.now })
-  createdAt: Date;
-  @Prop()
-  complatedAt: Date;
+  isArchived?: boolean;
+  // @Prop({ type: Date, default: Date.now })
+  // createdAt?: Date;
+  // @Prop()
+  // complatedAt?: Date;
 }
 
 export const TodoSchema = SchemaFactory.createForClass(Todo);
