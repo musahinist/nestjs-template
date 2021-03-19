@@ -26,7 +26,9 @@ export class TodosRepository {
     todosFilterQuery: FilterQuery<Todo>,
     updateTodo: Partial<Todo>,
   ): Promise<Todo> {
-    return this.todoModel.findOneAndUpdate(todosFilterQuery, updateTodo);
+    return this.todoModel.findOneAndUpdate(todosFilterQuery, updateTodo, {
+      new: true,
+    });
   }
 
   remove(todoFilterQuery: FilterQuery<Todo>): Observable<Todo> {
