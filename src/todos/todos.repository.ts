@@ -14,7 +14,7 @@ export class TodosRepository {
     return from(new this.todoModel(todo).save());
   }
 
-  findAll(todosFilterQuery: FilterQuery<Todo>): Observable<Todo[]> | Object {
+  findAll(todosFilterQuery: FilterQuery<Todo>): Observable<Todo[] | Object> {
     return from(this.todoModel.find(todosFilterQuery));
   }
 

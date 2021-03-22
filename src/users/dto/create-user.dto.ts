@@ -7,9 +7,9 @@ export class CreateUserDto extends PartialType(User) {
   @IsNotEmpty()
   @IsEmail({}, { message: 'email must be valid' })
   readonly email: string;
-  @IsNotEmpty()
+  //  @IsNotEmpty()
   readonly age: number;
-  @IsNotEmpty()
-  @IsString({ each: true })
+  // @IsNotEmpty()
+  //  @IsString({ each: true })
   readonly favorites: string[];
 }

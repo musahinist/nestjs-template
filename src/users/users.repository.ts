@@ -10,15 +10,17 @@ import { User, UserDocument } from './schema/user.schema';
 export class UsersRepository {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-  create(user: Partial<User>): Observable<User> {
-    return from(new this.userModel(user).save());
+  async create(user: Partial<User>): Promise<User | undefined> {
+    return new this.userModel(user).save();
   }
 
   findAll(usersFilterQuery: FilterQuery<User>) {
     return from(this.userModel.find(usersFilterQuery));
   }
 
-  async findOne(usersFilterQuery: FilterQuery<User>): Promise<User> {
+  async findOne(
+    usersFilterQuery: FilterQuery<User>,
+  ): Promise<User | undefined> {
     return this.userModel.findOne(usersFilterQuery);
   }
 
@@ -28,6 +30,7 @@ export class UsersRepository {
   ): Promise<User> {
     return this.userModel.findOneAndUpdate(usersFilterQuery, updateUser, {
       new: true,
+      runValidators: true,
     });
   }
 

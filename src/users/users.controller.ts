@@ -8,12 +8,20 @@ import {
   Delete,
   ValidationPipe,
   UsePipes,
+  UseFilters,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Observable } from 'rxjs';
 import { User } from './schema/user.schema';
+// import {
+//   AllExceptionsFilter,
+//   BadRequestFilter,
+//   MongoFilter,
+// } from 'src/shared/filter/all-exceptions.filter';
+import { JwtAuthGuard } from 'src/shared/guard/jwt-auth.guard';
 
 @Controller('users')
 export class UsersController {
@@ -21,6 +29,7 @@ export class UsersController {
 
   @Post()
   @UsePipes(new ValidationPipe({ transform: true }))
+  //@UseFilters(BadRequestFilter)
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
@@ -29,7 +38,7 @@ export class UsersController {
   findAll() {
     return this.usersService.findAll();
   }
-
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(+id);
